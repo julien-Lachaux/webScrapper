@@ -3,3 +3,6 @@ package-lock.json
 /temp
 /.env
 /data
+/.DS_Store
+/*.DS_Store
+/**/*.DS_Store
