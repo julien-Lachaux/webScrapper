@@ -1,5 +1,5 @@
-import { webScrapper } from '@julien-lachaux/webScrapper'
 import { jsonCache }    from '@julien-lachaux/jsoncache'
+import { webScrapper }  from './webScrapper'
 
 let getSupremeArticles = async function() {
     console.log('init scrapping')

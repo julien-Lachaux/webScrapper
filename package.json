@@ -1,8 +1,8 @@
 {
   "name": "@julien-lachaux/webscrapper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "build/demo.js",
+  "main": "build/webScrapper.js",
   "scripts": {
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./src",
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/julien-Lachaux/webScrapper#readme",
   "dependencies": {
-    "@julien-lachaux/jsoncache": "^1.0.0",
+    "@julien-lachaux/jsoncache": "^1.0.2",
     "dotenv": "^6.0.0",
     "fs": "0.0.1-security",
     "moment": "^2.22.2",
