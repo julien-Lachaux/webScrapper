@@ -1,4 +1,5 @@
 import { webScrapper } from './webScrapper'
+import { jsonCache }    from '@julien-lachaux/jsoncache'
 
 let getSupremeArticles = async function() {
     console.log('init scrapping')
@@ -7,57 +8,82 @@ let getSupremeArticles = async function() {
     let supremeArticles = await webScrapper.getElementsArray('#container article')
 
     let result = []
-    for (let i=0; i < 6; i++) {
-        console.log(`article ${i} on ${supremeArticles.length}`)
-        let articleUrl = await supremeArticles[i].$eval('.inner-article a', e => e.href)
-        let articleImg = await supremeArticles[i].$eval('.inner-article img', e => e.src)
-
+    for (let i=0; i < 2; i++) {
+        console.log('article ' + (i + 1) + ' on ' + (supremeArticles.length + 1) + '\r')
+        let articleUrl = await webScrapper.getElementData(supremeArticles[i], '.inner-article a', 'href')
+        let articleImg = await webScrapper.getElementData(supremeArticles[i], '.inner-article img', 'src')
+        
+        try {
+            var articleSoldOut = (await webScrapper.getElementData(supremeArticles[i], '.sold_out_tag'))
+        } catch (error) {
+            // DEBUG
+            // console.log(error)
+            articleSoldOut = undefined
+        }
+        
         await webScrapper.subScrapping(articleUrl)
+
         let articleDetail = (await webScrapper.getElementsArray('#container', true))[0]
 
-        let articleName = await articleDetail.$eval('h1.protect', e => e.innerText)
-        let articleModel = await articleDetail.$eval('p[itemprop="model"]', e => e.innerText)
-        let articleDescription = await articleDetail.$eval('p[itemprop="description"]', e => e.innerText)
-        let articlePriceBrut = await articleDetail.$eval('p[itemprop="offers"] span', e => e.innerText)
-        let articlePrice = articlePriceBrut.substring(1)
-        let articlePriceUnit = articlePriceBrut.substring(0, 1)
-        
-        let articlesSizes = (await webScrapper.sub.page.evaluate(() => {
-            let sizes = []
-            let sizesDomArray = document.querySelectorAll('#size option')
-            if (sizesDomArray.length !== 0) {
-                sizesDomArray.forEach(option => {
-                    console.log(option)
-                    sizes.push(option.innerText)
-                })
+        let articleName = await webScrapper.getElementData(articleDetail, 'h1.protect')
+        let articleModel = await webScrapper.getElementData(articleDetail, 'p[itemprop="model"]')
+
+        if (articleSoldOut !== undefined) {
+            var article = {
+                name:       articleName,
+                model:      articleModel,
+                img:        articleImg,
+                url:        articleUrl,
+                sold_out:   true
             }
-
-            return sizes
-        }))
-        console.log(articlesSizes)
-
-        if(articlesSizes.length === 0) {
-            articlesSizes.push('Unique')
+            webScrapper.destroySub()
+        } else {
+            
+            let articleDescription = await webScrapper.getElementData(articleDetail, 'p[itemprop="description"]')
+            let articlePriceBrut = await webScrapper.getElementData(articleDetail, 'p[itemprop="offers"] span')
+            let articlePrice = articlePriceBrut.substring(1)
+            let articlePriceUnit = articlePriceBrut.substring(0, 1)
+            
+            let articleSizes = (await webScrapper.sub.page.evaluate(() => {
+                let sizes = []
+                let sizesDomArray = document.querySelectorAll('#size option')
+                if (sizesDomArray.length !== 0) {
+                    sizesDomArray.forEach(option => {
+                        sizes.push(option.innerText)
+                    })
+                }
+                return sizes
+            }))
+            
+            if(articleSizes.length === 0) {
+                articleSizes.push('Unique')
+            }
+    
+            webScrapper.destroySub()
+    
+            var article = {
+                name:           articleName,
+                model:          articleModel,
+                description:    articleDescription,
+                url:            articleUrl,
+                img:            articleImg,
+                price:          articlePrice,
+                priceUnit:      articlePriceUnit,
+                sizes :         articleSizes
+            }
         }
 
-        webScrapper.destroySub()
-
-        let article = {
-            name: articleName,
-            model: articleModel,
-            description: articleDescription,
-            url: articleUrl,
-            img: articleImg,
-            price: articlePrice,
-            priceUnit: articlePriceUnit,
-            sizes : articlesSizes
-        }
         result.push(article)
-
         article = {}
     }
-    // console.log(result)
+
     await webScrapper.end()
+
+    jsonCache.write(result, 'articles')
+
+    let finalResult = await jsonCache.getMostRecentFile('articles')
+
+    return finalResult
 }
 
 getSupremeArticles()

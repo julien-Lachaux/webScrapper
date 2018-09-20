@@ -1,9 +1,6 @@
 // loadind dependencies
 import fs           from 'fs'
-import path         from 'path'
-import cron         from 'node-cron'
 import puppeteer    from 'puppeteer'
-import { endianness } from 'os';
 
 export const webScrapper = {
     /**
@@ -11,7 +8,9 @@ export const webScrapper = {
      * Define the url to scrapp into the object
      * @param {string} url url to scrapp 
      */
-    setUrl(url) { this.url = url },
+    setUrl(url) { 
+        this.url = url
+    },
 
     /**
      * init
@@ -57,6 +56,33 @@ export const webScrapper = {
     },
 
     /**
+     * getElementData
+     * return the value of an specified attribute of a specified element for a specified selector
+     * @param {Object} element 
+     * @param {string} selector 
+     * @param {string} attribute 
+     */
+    async getElementData(element, selector, attribute = innerText) {
+        var elementData
+
+        switch (attribute) {
+            case 'href':
+                elementData = await element.$eval(selector, e => e.href)
+                break;
+        
+            case 'innerText':
+                elementData = await element.$eval(selector, e => e.innerText)
+                break;
+
+            case 'src':
+                elementData = await element.$eval(selector, e => e.src)
+                break;
+        }
+
+        return elementData
+    },
+
+    /**
      * subScrapping
      * init a sub browser
      * @param {string} url url to scrapp for the sub browser
@@ -72,67 +98,7 @@ export const webScrapper = {
      */
     destroySub() { this.sub = undefined },
 
-    cache: {
-        maxCacheSize: 5, // max nbr of json files
-
-        write() {
-
-        },
-        async read() {
-            if (fs.existsSync('data/history.json')) {
-                await fs.readFile('data/history.json', (err, data) => {
-                    if(err) throw err
-        
-                    data = JSON.parse(data.toString())
-                    offres.forEach((offre) => {
-                        let test = data.filter(element => element.id === offre.id)
-                        if(test.length === 0) {
-                            result.push(offre)
-                        }
-                    });
-                    fs.writeFile('data/history.json', JSON.stringify(offres), (err) => {
-                        if (err) throw err
-                        callback(result)
-                        console.log(`New scrapping result write (nbr of results: ${result.length})`)
-                    })
-                })
-            } else {
-                fs.writeFile('data/history.json', JSON.stringify(offres), (err) => {
-                    if (err) throw err
-                    result = offres
-                    callback(result)
-                    console.log(`New scrapping result write (nbr of results: ${result.length})`)
-                })
-            }
-        },
-        async diff() {
-            if (fs.existsSync('data/history.json')) {
-                await fs.readFile('data/history.json', (err, data) => {
-                    if(err) throw err
-        
-                    data = JSON.parse(data.toString())
-                    offres.forEach((offre) => {
-                        let test = data.filter(element => element.id === offre.id)
-                        if(test.length === 0) {
-                            result.push(offre)
-                        }
-                    });
-                    fs.writeFile('data/history.json', JSON.stringify(offres), (err) => {
-                        if (err) throw err
-                        callback(result)
-                        console.log(`New scrapping result write (nbr of results: ${result.length})`)
-                    })
-                })
-            } else {
-                fs.writeFile('data/history.json', JSON.stringify(offres), (err) => {
-                    if (err) throw err
-                    result = offres
-                    callback(result)
-                    console.log(`New scrapping result write (nbr of results: ${result.length})`)
-                })
-            }
-        }
-    }
+    
 }
 
 async function getJobsOffers(villes, contrats, pagination, query = '', callback = (result) => {}) {
