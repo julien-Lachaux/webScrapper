@@ -14,26 +14,26 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var getJobsOffers = function () {
-    var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(villes, contrats, pagination) {
+    var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(villes, contrats, pagination) {
         var query = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
         var callback = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : function (result) {};
 
         var browser, page, url, urlParam, i, _i, html, offres, _i2, poste, entreprise, logo, href, data, contrat, ville, date, id, offre, result;
 
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
             while (1) {
-                switch (_context6.prev = _context6.next) {
+                switch (_context7.prev = _context7.next) {
                     case 0:
-                        _context6.next = 2;
+                        _context7.next = 2;
                         return _puppeteer2.default.launch({ args: ['--no-sandbox'] });
 
                     case 2:
-                        browser = _context6.sent;
-                        _context6.next = 5;
+                        browser = _context7.sent;
+                        _context7.next = 5;
                         return browser.newPage();
 
                     case 5:
-                        page = _context6.sent;
+                        page = _context7.sent;
 
 
                         // construction de l'url à scrapper
@@ -78,82 +78,82 @@ var getJobsOffers = function () {
 
                         // console.log(url)
 
-                        _context6.next = 17;
+                        _context7.next = 17;
                         return page.goto(url);
 
                     case 17:
-                        _context6.next = 19;
+                        _context7.next = 19;
                         return page.screenshot({ path: "data/screenshot.png" });
 
                     case 19:
-                        _context6.next = 21;
+                        _context7.next = 21;
                         return page.$$('.ais-Hits-item');
 
                     case 21:
-                        html = _context6.sent;
+                        html = _context7.sent;
                         offres = [];
                         _i2 = 0;
 
                     case 24:
                         if (!(_i2 < html.length)) {
-                            _context6.next = 55;
+                            _context7.next = 55;
                             break;
                         }
 
-                        _context6.next = 27;
+                        _context7.next = 27;
                         return html[_i2].$eval('h3 .ais-Highlight-nonHighlighted', function (e) {
                             return e.innerText;
                         });
 
                     case 27:
-                        poste = _context6.sent;
-                        _context6.next = 30;
+                        poste = _context7.sent;
+                        _context7.next = 30;
                         return html[_i2].$eval('h4 .ais-Highlight-nonHighlighted', function (e) {
                             return e.innerText;
                         });
 
                     case 30:
-                        entreprise = _context6.sent;
-                        _context6.next = 33;
+                        entreprise = _context7.sent;
+                        _context7.next = 33;
                         return html[_i2].$eval('img.zphx8j-4', function (e) {
                             return e.src;
                         });
 
                     case 33:
-                        logo = _context6.sent;
-                        _context6.next = 36;
+                        logo = _context7.sent;
+                        _context7.next = 36;
                         return html[_i2].$eval('a', function (e) {
                             return e.href;
                         });
 
                     case 36:
-                        href = _context6.sent;
-                        _context6.next = 39;
+                        href = _context7.sent;
+                        _context7.next = 39;
                         return html[0].$$('.sc-bXGyLb');
 
                     case 39:
-                        data = _context6.sent;
-                        _context6.next = 42;
+                        data = _context7.sent;
+                        _context7.next = 42;
                         return data[0].$eval('.sc-cbkKFq span', function (e) {
                             return e.innerText;
                         });
 
                     case 42:
-                        contrat = _context6.sent;
-                        _context6.next = 45;
+                        contrat = _context7.sent;
+                        _context7.next = 45;
                         return data[1].$eval('.sc-cbkKFq', function (e) {
                             return e.innerText;
                         });
 
                     case 45:
-                        ville = _context6.sent;
-                        _context6.next = 48;
+                        ville = _context7.sent;
+                        _context7.next = 48;
                         return data[2].$eval('.sc-cbkKFq span', function (e) {
                             return e.innerText;
                         });
 
                     case 48:
-                        date = _context6.sent;
+                        date = _context7.sent;
                         id = entreprise + ' - ' + poste;
                         offre = { id: id, poste: poste, entreprise: entreprise, logo: logo, href: href, contrat: contrat, ville: ville, date: date };
 
@@ -162,32 +162,32 @@ var getJobsOffers = function () {
 
                     case 52:
                         _i2++;
-                        _context6.next = 24;
+                        _context7.next = 24;
                         break;
 
                     case 55:
-                        _context6.next = 57;
+                        _context7.next = 57;
                         return browser.close();
 
                     case 57:
                         if (!(offres.length === 0)) {
-                            _context6.next = 61;
+                            _context7.next = 61;
                             break;
                         }
 
                         console.log('SCRAPPING FAILED !!');
-                        _context6.next = 68;
+                        _context7.next = 68;
                         break;
 
                     case 61:
                         result = [];
 
                         if (!_fs2.default.existsSync('data/history.json')) {
-                            _context6.next = 67;
+                            _context7.next = 67;
                             break;
                         }
 
-                        _context6.next = 65;
+                        _context7.next = 65;
                         return _fs2.default.readFile('data/history.json', function (err, data) {
                             if (err) throw err;
 
@@ -208,7 +208,7 @@ var getJobsOffers = function () {
                         });
 
                     case 65:
-                        _context6.next = 68;
+                        _context7.next = 68;
                         break;
 
                     case 67:
@@ -221,10 +221,10 @@ var getJobsOffers = function () {
 
                     case 68:
                     case 'end':
-                        return _context6.stop();
+                        return _context7.stop();
                 }
             }
-        }, _callee6, this);
+        }, _callee7, this);
     }));
 
     return function getJobsOffers(_x3, _x4, _x5) {
@@ -492,6 +492,25 @@ var webScrapper = exports.webScrapper = {
      * destroy the sub browser
      */
     destroySub: function destroySub() {
-        this.sub = undefined;
+        var _this6 = this;
+
+        return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
+            return _regenerator2.default.wrap(function _callee6$(_context6) {
+                while (1) {
+                    switch (_context6.prev = _context6.next) {
+                        case 0:
+                            _context6.next = 2;
+                            return _this6.sub.browser.close();
+
+                        case 2:
+                            _this6.sub = undefined;
+
+                        case 3:
+                        case 'end':
+                            return _context6.stop();
+                    }
+                }
+            }, _callee6, _this6);
+        }))();
     }
 };

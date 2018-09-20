@@ -37,7 +37,7 @@ var getSupremeArticles = function () {
 
                     case 9:
                         if (!(i < supremeArticles.length)) {
-                            _context.next = 61;
+                            _context.next = 62;
                             break;
                         }
 
@@ -104,7 +104,7 @@ var getSupremeArticles = function () {
                         };
 
                         _webScrapper.webScrapper.destroySub();
-                        _context.next = 56;
+                        _context.next = 57;
                         break;
 
                     case 42:
@@ -140,8 +140,10 @@ var getSupremeArticles = function () {
                             articleSizes.push('Unique');
                         }
 
-                        _webScrapper.webScrapper.destroySub();
+                        _context.next = 56;
+                        return _webScrapper.webScrapper.destroySub();
 
+                    case 56:
                         article = {
                             name: articleName,
                             model: articleModel,
@@ -153,32 +155,32 @@ var getSupremeArticles = function () {
                             sizes: articleSizes
                         };
 
-                    case 56:
+                    case 57:
 
                         result.push(article);
                         article = {};
 
-                    case 58:
+                    case 59:
                         i++;
                         _context.next = 9;
                         break;
 
-                    case 61:
-                        _context.next = 63;
+                    case 62:
+                        _context.next = 64;
                         return _webScrapper.webScrapper.end();
 
-                    case 63:
+                    case 64:
 
                         _jsoncache.jsonCache.write(result, 'articles');
 
-                        _context.next = 66;
+                        _context.next = 67;
                         return _jsoncache.jsonCache.getMostRecentFile('articles');
 
-                    case 66:
+                    case 67:
                         finalResult = _context.sent;
                         return _context.abrupt('return', finalResult);
 
-                    case 68:
+                    case 69:
                     case 'end':
                         return _context.stop();
                 }

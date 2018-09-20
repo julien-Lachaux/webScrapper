@@ -59,7 +59,7 @@ let getSupremeArticles = async function() {
                 articleSizes.push('Unique')
             }
     
-            webScrapper.destroySub()
+            await webScrapper.destroySub()
     
             var article = {
                 name:           articleName,

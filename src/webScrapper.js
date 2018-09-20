@@ -96,7 +96,10 @@ export const webScrapper = {
     /**
      * destroy the sub browser
      */
-    destroySub() { this.sub = undefined },
+    async destroySub() { 
+        await this.sub.browser.close()
+        this.sub = undefined 
+    },
 
     
 }
