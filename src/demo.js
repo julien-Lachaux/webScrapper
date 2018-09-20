@@ -8,7 +8,7 @@ let getSupremeArticles = async function() {
     let supremeArticles = await webScrapper.getElementsArray('#container article')
 
     let result = []
-    for (let i=0; i < 2; i++) {
+    for (let i=0; i < supremeArticles.length; i++) {
         console.log('article ' + (i + 1) + ' on ' + (supremeArticles.length + 1) + '\r')
         let articleUrl = await webScrapper.getElementData(supremeArticles[i], '.inner-article a', 'href')
         let articleImg = await webScrapper.getElementData(supremeArticles[i], '.inner-article img', 'src')

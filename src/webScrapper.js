@@ -62,8 +62,8 @@ export const webScrapper = {
      * @param {string} selector 
      * @param {string} attribute 
      */
-    async getElementData(element, selector, attribute = innerText) {
-        var elementData
+    async getElementData(element, selector, attribute = 'innerText') {
+        var elementData = {}
 
         switch (attribute) {
             case 'href':
