@@ -36,7 +36,7 @@ var getSupremeArticles = function () {
                         i = 0;
 
                     case 9:
-                        if (!(i < 2)) {
+                        if (!(i < supremeArticles.length)) {
                             _context.next = 61;
                             break;
                         }

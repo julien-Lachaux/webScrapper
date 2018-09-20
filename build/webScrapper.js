@@ -394,51 +394,52 @@ var webScrapper = exports.webScrapper = {
     getElementData: function getElementData(element, selector) {
         var _this4 = this;
 
-        var attribute = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : innerText;
+        var attribute = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'innerText';
         return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
             var elementData;
             return _regenerator2.default.wrap(function _callee4$(_context4) {
                 while (1) {
                     switch (_context4.prev = _context4.next) {
                         case 0:
+                            elementData = {};
                             _context4.t0 = attribute;
-                            _context4.next = _context4.t0 === 'href' ? 3 : _context4.t0 === 'innerText' ? 7 : _context4.t0 === 'src' ? 11 : 15;
+                            _context4.next = _context4.t0 === 'href' ? 4 : _context4.t0 === 'innerText' ? 8 : _context4.t0 === 'src' ? 12 : 16;
                             break;
 
-                        case 3:
-                            _context4.next = 5;
+                        case 4:
+                            _context4.next = 6;
                             return element.$eval(selector, function (e) {
                                 return e.href;
                             });
 
-                        case 5:
+                        case 6:
                             elementData = _context4.sent;
-                            return _context4.abrupt('break', 15);
+                            return _context4.abrupt('break', 16);
 
-                        case 7:
-                            _context4.next = 9;
+                        case 8:
+                            _context4.next = 10;
                             return element.$eval(selector, function (e) {
                                 return e.innerText;
                             });
 
-                        case 9:
+                        case 10:
                             elementData = _context4.sent;
-                            return _context4.abrupt('break', 15);
+                            return _context4.abrupt('break', 16);
 
-                        case 11:
-                            _context4.next = 13;
+                        case 12:
+                            _context4.next = 14;
                             return element.$eval(selector, function (e) {
                                 return e.src;
                             });
 
-                        case 13:
+                        case 14:
                             elementData = _context4.sent;
-                            return _context4.abrupt('break', 15);
-
-                        case 15:
-                            return _context4.abrupt('return', elementData);
+                            return _context4.abrupt('break', 16);
 
                         case 16:
+                            return _context4.abrupt('return', elementData);
+
+                        case 17:
                         case 'end':
                             return _context4.stop();
                     }
