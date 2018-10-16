@@ -77,6 +77,10 @@ export const webScrapper = {
             case 'src':
                 elementData = await element.$eval(selector, e => e.src)
                 break;
+
+            default:
+                elementData = await element.$eval(selector, e => e.getAttribute(attribute))
+                break;
         }
 
         return elementData
