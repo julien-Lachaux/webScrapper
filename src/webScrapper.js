@@ -15,16 +15,28 @@ export const webScrapper = {
     /**
      * init
      * initialiaze the webScrapper to the url
-     * /!\ THE URL MUST BE DEFINED /!\
+     * /!\ THE URL MUST BE DEFINED BEFORE /!\
      */
-    async init() {
+    async init(onlyHtml = false) {
         if (this.url === undefined) { return false }
 
         // set the browser and the page into the object for later access
-        this.browser = await puppeteer.launch({ args: ['--no-sandbox'] })
-        this.page = await this.browser.newPage()
+        this.browser  = await puppeteer.launch({ args: ['--no-sandbox'] })
+        this.page     = await this.browser.newPage()
+        
+        if (onlyHtml) {
+            await this.page.setRequestInterception(true)
+        
+            this.page.on('request', (request) => {
+                if (['image', 'stylesheet', 'font', 'script'].indexOf(request.resourceType()) !== -1) {
+                    request.abort()
+                } else {
+                    request.continue()
+                }
+            })   
+        }
 
-        await this.page.goto(this.url);
+        await this.page.goto(this.url)
         await this.page.screenshot({ path: "temp/screenshot.png" })
     },
 

@@ -227,7 +227,7 @@ var getJobsOffers = function () {
         }, _callee7, this);
     }));
 
-    return function getJobsOffers(_x3, _x4, _x5) {
+    return function getJobsOffers(_x4, _x5, _x6) {
         return _ref.apply(this, arguments);
     };
 }();
@@ -257,11 +257,12 @@ var webScrapper = exports.webScrapper = {
     /**
      * init
      * initialiaze the webScrapper to the url
-     * /!\ THE URL MUST BE DEFINED /!\
+     * /!\ THE URL MUST BE DEFINED BEFORE /!\
      */
     init: function init() {
         var _this = this;
 
+        var onlyHtml = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
         return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
             return _regenerator2.default.wrap(function _callee$(_context) {
                 while (1) {
@@ -285,14 +286,34 @@ var webScrapper = exports.webScrapper = {
 
                         case 7:
                             _this.page = _context.sent;
-                            _context.next = 10;
-                            return _this.page.goto(_this.url);
 
-                        case 10:
-                            _context.next = 12;
-                            return _this.page.screenshot({ path: "temp/screenshot.png" });
+                            if (!onlyHtml) {
+                                _context.next = 12;
+                                break;
+                            }
+
+                            _context.next = 11;
+                            return _this.page.setRequestInterception(true);
+
+                        case 11:
+
+                            _this.page.on('request', function (request) {
+                                if (['image', 'stylesheet', 'font', 'script'].indexOf(request.resourceType()) !== -1) {
+                                    request.abort();
+                                } else {
+                                    request.continue();
+                                }
+                            });
 
                         case 12:
+                            _context.next = 14;
+                            return _this.page.goto(_this.url);
+
+                        case 14:
+                            _context.next = 16;
+                            return _this.page.screenshot({ path: "temp/screenshot.png" });
+
+                        case 16:
                         case 'end':
                             return _context.stop();
                     }
@@ -414,7 +435,7 @@ var webScrapper = exports.webScrapper = {
 
                         case 6:
                             elementData = _context4.sent;
-                            return _context4.abrupt('break', 16);
+                            return _context4.abrupt('break', 20);
 
                         case 8:
                             _context4.next = 10;
@@ -424,7 +445,7 @@ var webScrapper = exports.webScrapper = {
 
                         case 10:
                             elementData = _context4.sent;
-                            return _context4.abrupt('break', 16);
+                            return _context4.abrupt('break', 20);
 
                         case 12:
                             _context4.next = 14;
@@ -434,12 +455,22 @@ var webScrapper = exports.webScrapper = {
 
                         case 14:
                             elementData = _context4.sent;
-                            return _context4.abrupt('break', 16);
+                            return _context4.abrupt('break', 20);
 
                         case 16:
+                            _context4.next = 18;
+                            return element.$eval(selector, function (e) {
+                                return e.getAttribute(attribute);
+                            });
+
+                        case 18:
+                            elementData = _context4.sent;
+                            return _context4.abrupt('break', 20);
+
+                        case 20:
                             return _context4.abrupt('return', elementData);
 
-                        case 17:
+                        case 21:
                         case 'end':
                             return _context4.stop();
                     }
