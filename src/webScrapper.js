@@ -39,6 +39,11 @@ export const webScrapper = {
         await this.page.goto(this.url)
         await this.page.screenshot({ path: "temp/screenshot.png" })
     },
+    
+    async goto(url) {
+        await this.page.goto(url)
+        return true
+    },
 
     /**
      * end
