@@ -14,26 +14,26 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var getJobsOffers = function () {
-    var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(villes, contrats, pagination) {
+    var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(villes, contrats, pagination) {
         var query = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
         var callback = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : function (result) {};
 
         var browser, page, url, urlParam, i, _i, html, offres, _i2, poste, entreprise, logo, href, data, contrat, ville, date, id, offre, result;
 
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+        return _regenerator2.default.wrap(function _callee8$(_context8) {
             while (1) {
-                switch (_context7.prev = _context7.next) {
+                switch (_context8.prev = _context8.next) {
                     case 0:
-                        _context7.next = 2;
+                        _context8.next = 2;
                         return _puppeteer2.default.launch({ args: ['--no-sandbox'] });
 
                     case 2:
-                        browser = _context7.sent;
-                        _context7.next = 5;
+                        browser = _context8.sent;
+                        _context8.next = 5;
                         return browser.newPage();
 
                     case 5:
-                        page = _context7.sent;
+                        page = _context8.sent;
 
 
                         // construction de l'url à scrapper
@@ -78,82 +78,82 @@ var getJobsOffers = function () {
 
                         // console.log(url)
 
-                        _context7.next = 17;
+                        _context8.next = 17;
                         return page.goto(url);
 
                     case 17:
-                        _context7.next = 19;
+                        _context8.next = 19;
                         return page.screenshot({ path: "data/screenshot.png" });
 
                     case 19:
-                        _context7.next = 21;
+                        _context8.next = 21;
                         return page.$$('.ais-Hits-item');
 
                     case 21:
-                        html = _context7.sent;
+                        html = _context8.sent;
                         offres = [];
                         _i2 = 0;
 
                     case 24:
                         if (!(_i2 < html.length)) {
-                            _context7.next = 55;
+                            _context8.next = 55;
                             break;
                         }
 
-                        _context7.next = 27;
+                        _context8.next = 27;
                         return html[_i2].$eval('h3 .ais-Highlight-nonHighlighted', function (e) {
                             return e.innerText;
                         });
 
                     case 27:
-                        poste = _context7.sent;
-                        _context7.next = 30;
+                        poste = _context8.sent;
+                        _context8.next = 30;
                         return html[_i2].$eval('h4 .ais-Highlight-nonHighlighted', function (e) {
                             return e.innerText;
                         });
 
                     case 30:
-                        entreprise = _context7.sent;
-                        _context7.next = 33;
+                        entreprise = _context8.sent;
+                        _context8.next = 33;
                         return html[_i2].$eval('img.zphx8j-4', function (e) {
                             return e.src;
                         });
 
                     case 33:
-                        logo = _context7.sent;
-                        _context7.next = 36;
+                        logo = _context8.sent;
+                        _context8.next = 36;
                         return html[_i2].$eval('a', function (e) {
                             return e.href;
                         });
 
                     case 36:
-                        href = _context7.sent;
-                        _context7.next = 39;
+                        href = _context8.sent;
+                        _context8.next = 39;
                         return html[0].$$('.sc-bXGyLb');
 
                     case 39:
-                        data = _context7.sent;
-                        _context7.next = 42;
+                        data = _context8.sent;
+                        _context8.next = 42;
                         return data[0].$eval('.sc-cbkKFq span', function (e) {
                             return e.innerText;
                         });
 
                     case 42:
-                        contrat = _context7.sent;
-                        _context7.next = 45;
+                        contrat = _context8.sent;
+                        _context8.next = 45;
                         return data[1].$eval('.sc-cbkKFq', function (e) {
                             return e.innerText;
                         });
 
                     case 45:
-                        ville = _context7.sent;
-                        _context7.next = 48;
+                        ville = _context8.sent;
+                        _context8.next = 48;
                         return data[2].$eval('.sc-cbkKFq span', function (e) {
                             return e.innerText;
                         });
 
                     case 48:
-                        date = _context7.sent;
+                        date = _context8.sent;
                         id = entreprise + ' - ' + poste;
                         offre = { id: id, poste: poste, entreprise: entreprise, logo: logo, href: href, contrat: contrat, ville: ville, date: date };
 
@@ -162,32 +162,32 @@ var getJobsOffers = function () {
 
                     case 52:
                         _i2++;
-                        _context7.next = 24;
+                        _context8.next = 24;
                         break;
 
                     case 55:
-                        _context7.next = 57;
+                        _context8.next = 57;
                         return browser.close();
 
                     case 57:
                         if (!(offres.length === 0)) {
-                            _context7.next = 61;
+                            _context8.next = 61;
                             break;
                         }
 
                         console.log('SCRAPPING FAILED !!');
-                        _context7.next = 68;
+                        _context8.next = 68;
                         break;
 
                     case 61:
                         result = [];
 
                         if (!_fs2.default.existsSync('data/history.json')) {
-                            _context7.next = 67;
+                            _context8.next = 67;
                             break;
                         }
 
-                        _context7.next = 65;
+                        _context8.next = 65;
                         return _fs2.default.readFile('data/history.json', function (err, data) {
                             if (err) throw err;
 
@@ -208,7 +208,7 @@ var getJobsOffers = function () {
                         });
 
                     case 65:
-                        _context7.next = 68;
+                        _context8.next = 68;
                         break;
 
                     case 67:
@@ -221,10 +221,10 @@ var getJobsOffers = function () {
 
                     case 68:
                     case 'end':
-                        return _context7.stop();
+                        return _context8.stop();
                 }
             }
-        }, _callee7, this);
+        }, _callee8, this);
     }));
 
     return function getJobsOffers(_x4, _x5, _x6) {
@@ -321,13 +321,7 @@ var webScrapper = exports.webScrapper = {
             }, _callee, _this);
         }))();
     },
-
-
-    /**
-     * end
-     * finish the scrapp session
-     */
-    end: function end() {
+    goto: function goto(url) {
         var _this2 = this;
 
         return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
@@ -336,7 +330,7 @@ var webScrapper = exports.webScrapper = {
                     switch (_context2.prev = _context2.next) {
                         case 0:
                             _context2.next = 2;
-                            return _this2.browser.close();
+                            return _this2.page.goto(url);
 
                         case 2:
                             return _context2.abrupt('return', true);
@@ -352,55 +346,83 @@ var webScrapper = exports.webScrapper = {
 
 
     /**
-     * return an array of dom elements
-     * @param {string} selector css selector
-     * @param {boolean} sub if true the sub brower will be used
+     * end
+     * finish the scrapp session
      */
-    getElementsArray: function getElementsArray(selector) {
+    end: function end() {
         var _this3 = this;
 
-        var sub = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
         return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-            var elementsArray, _elementsArray;
-
             return _regenerator2.default.wrap(function _callee3$(_context3) {
                 while (1) {
                     switch (_context3.prev = _context3.next) {
                         case 0:
-                            if (sub) {
-                                _context3.next = 5;
-                                break;
-                            }
+                            _context3.next = 2;
+                            return _this3.browser.close();
 
-                            _context3.next = 3;
-                            return _this3.page.$$(selector);
+                        case 2:
+                            return _context3.abrupt('return', true);
 
                         case 3:
-                            elementsArray = _context3.sent;
-                            return _context3.abrupt('return', elementsArray);
-
-                        case 5:
-                            if (!(_this3.sub.page !== undefined)) {
-                                _context3.next = 10;
-                                break;
-                            }
-
-                            _context3.next = 8;
-                            return _this3.sub.page.$$(selector);
-
-                        case 8:
-                            _elementsArray = _context3.sent;
-                            return _context3.abrupt('return', _elementsArray);
-
-                        case 10:
-                            return _context3.abrupt('return', false);
-
-                        case 11:
                         case 'end':
                             return _context3.stop();
                     }
                 }
             }, _callee3, _this3);
+        }))();
+    },
+
+
+    /**
+     * return an array of dom elements
+     * @param {string} selector css selector
+     * @param {boolean} sub if true the sub brower will be used
+     */
+    getElementsArray: function getElementsArray(selector) {
+        var _this4 = this;
+
+        var sub = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+        return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+            var elementsArray, _elementsArray;
+
+            return _regenerator2.default.wrap(function _callee4$(_context4) {
+                while (1) {
+                    switch (_context4.prev = _context4.next) {
+                        case 0:
+                            if (sub) {
+                                _context4.next = 5;
+                                break;
+                            }
+
+                            _context4.next = 3;
+                            return _this4.page.$$(selector);
+
+                        case 3:
+                            elementsArray = _context4.sent;
+                            return _context4.abrupt('return', elementsArray);
+
+                        case 5:
+                            if (!(_this4.sub.page !== undefined)) {
+                                _context4.next = 10;
+                                break;
+                            }
+
+                            _context4.next = 8;
+                            return _this4.sub.page.$$(selector);
+
+                        case 8:
+                            _elementsArray = _context4.sent;
+                            return _context4.abrupt('return', _elementsArray);
+
+                        case 10:
+                            return _context4.abrupt('return', false);
+
+                        case 11:
+                        case 'end':
+                            return _context4.stop();
+                    }
+                }
+            }, _callee4, _this4);
         }))();
     },
 
@@ -413,103 +435,64 @@ var webScrapper = exports.webScrapper = {
      * @param {string} attribute 
      */
     getElementData: function getElementData(element, selector) {
-        var _this4 = this;
+        var _this5 = this;
 
         var attribute = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'innerText';
-        return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+        return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
             var elementData;
-            return _regenerator2.default.wrap(function _callee4$(_context4) {
+            return _regenerator2.default.wrap(function _callee5$(_context5) {
                 while (1) {
-                    switch (_context4.prev = _context4.next) {
+                    switch (_context5.prev = _context5.next) {
                         case 0:
                             elementData = {};
-                            _context4.t0 = attribute;
-                            _context4.next = _context4.t0 === 'href' ? 4 : _context4.t0 === 'innerText' ? 8 : _context4.t0 === 'src' ? 12 : 16;
+                            _context5.t0 = attribute;
+                            _context5.next = _context5.t0 === 'href' ? 4 : _context5.t0 === 'innerText' ? 8 : _context5.t0 === 'src' ? 12 : 16;
                             break;
 
                         case 4:
-                            _context4.next = 6;
+                            _context5.next = 6;
                             return element.$eval(selector, function (e) {
                                 return e.href;
                             });
 
                         case 6:
-                            elementData = _context4.sent;
-                            return _context4.abrupt('break', 20);
+                            elementData = _context5.sent;
+                            return _context5.abrupt('break', 20);
 
                         case 8:
-                            _context4.next = 10;
+                            _context5.next = 10;
                             return element.$eval(selector, function (e) {
                                 return e.innerText;
                             });
 
                         case 10:
-                            elementData = _context4.sent;
-                            return _context4.abrupt('break', 20);
+                            elementData = _context5.sent;
+                            return _context5.abrupt('break', 20);
 
                         case 12:
-                            _context4.next = 14;
+                            _context5.next = 14;
                             return element.$eval(selector, function (e) {
                                 return e.src;
                             });
 
                         case 14:
-                            elementData = _context4.sent;
-                            return _context4.abrupt('break', 20);
+                            elementData = _context5.sent;
+                            return _context5.abrupt('break', 20);
 
                         case 16:
-                            _context4.next = 18;
+                            _context5.next = 18;
                             return element.$eval(selector, function (e) {
                                 return e.getAttribute(attribute);
                             });
 
                         case 18:
-                            elementData = _context4.sent;
-                            return _context4.abrupt('break', 20);
+                            elementData = _context5.sent;
+                            return _context5.abrupt('break', 20);
 
                         case 20:
-                            return _context4.abrupt('return', elementData);
+                            return _context5.abrupt('return', elementData);
 
                         case 21:
-                        case 'end':
-                            return _context4.stop();
-                    }
-                }
-            }, _callee4, _this4);
-        }))();
-    },
-
-
-    /**
-     * subScrapping
-     * init a sub browser
-     * @param {string} url url to scrapp for the sub browser
-     */
-    subScrapping: function subScrapping(url) {
-        var _this5 = this;
-
-        return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
-            return _regenerator2.default.wrap(function _callee5$(_context5) {
-                while (1) {
-                    switch (_context5.prev = _context5.next) {
-                        case 0:
-                            _context5.next = 2;
-                            return _puppeteer2.default.launch({ args: ['--no-sandbox'] });
-
-                        case 2:
-                            _context5.t0 = _context5.sent;
-                            _this5.sub = {
-                                browser: _context5.t0
-                            };
-                            _context5.next = 6;
-                            return _this5.sub.browser.newPage();
-
-                        case 6:
-                            _this5.sub.page = _context5.sent;
-                            _context5.next = 9;
-                            return _this5.sub.page.goto(url);
-
-                        case 9:
                         case 'end':
                             return _context5.stop();
                     }
@@ -520,9 +503,11 @@ var webScrapper = exports.webScrapper = {
 
 
     /**
-     * destroy the sub browser
+     * subScrapping
+     * init a sub browser
+     * @param {string} url url to scrapp for the sub browser
      */
-    destroySub: function destroySub() {
+    subScrapping: function subScrapping(url) {
         var _this6 = this;
 
         return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
@@ -531,17 +516,54 @@ var webScrapper = exports.webScrapper = {
                     switch (_context6.prev = _context6.next) {
                         case 0:
                             _context6.next = 2;
-                            return _this6.sub.browser.close();
+                            return _puppeteer2.default.launch({ args: ['--no-sandbox'] });
 
                         case 2:
-                            _this6.sub = undefined;
+                            _context6.t0 = _context6.sent;
+                            _this6.sub = {
+                                browser: _context6.t0
+                            };
+                            _context6.next = 6;
+                            return _this6.sub.browser.newPage();
 
-                        case 3:
+                        case 6:
+                            _this6.sub.page = _context6.sent;
+                            _context6.next = 9;
+                            return _this6.sub.page.goto(url);
+
+                        case 9:
                         case 'end':
                             return _context6.stop();
                     }
                 }
             }, _callee6, _this6);
+        }))();
+    },
+
+
+    /**
+     * destroy the sub browser
+     */
+    destroySub: function destroySub() {
+        var _this7 = this;
+
+        return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
+            return _regenerator2.default.wrap(function _callee7$(_context7) {
+                while (1) {
+                    switch (_context7.prev = _context7.next) {
+                        case 0:
+                            _context7.next = 2;
+                            return _this7.sub.browser.close();
+
+                        case 2:
+                            _this7.sub = undefined;
+
+                        case 3:
+                        case 'end':
+                            return _context7.stop();
+                    }
+                }
+            }, _callee7, _this7);
         }))();
     }
 };
